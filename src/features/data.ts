@@ -10,7 +10,7 @@ export const tasks = [
   {
     id: 2,
     name: "Team Meeting",
-    description: "Discuss project milestones and upcoming tasks with the team.",
+    description: "Discuss project milestones and upcoming tasks with the team. Discuss project milestones and upcoming tasks with the team.",
     dueDate: "2024-07-16",
     email: "spncrkm@gmail.com",
     priority: "High"

@@ -1,9 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Container } from "react-bootstrap";
+import { Container, Modal, ModalBody } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { TaskState, Task } from "../interface/Task";
-import React from "react";
+import React, { useState } from "react";
 import { UseDispatch } from "react-redux";
 import { deleteTask } from "../features/taskSlice";
 
@@ -12,6 +12,7 @@ const Dashboard: React.FC = () => {
   const { user } = useAuth0();
   const { tasks } = useSelector((state: TaskState) => state.tasks);
   const userTasks = tasks.filter((item: Task) => item.email === user?.email);
+  const [modalShow, setModalShow] = React.useState(false);
 
   // getAccessTokenSilently().then((token) => console.log(token));
   console.log(user);
@@ -31,15 +32,25 @@ const Dashboard: React.FC = () => {
               <Card.Body>
                 <Card.Title>{task.name}</Card.Title>
                 <Card.Text>
-                  {task.description.substring(0, 50) + "..."}
+                  {/* {task.description.substring(0, 50) + "..."} */}
+                  {task.description}
                 </Card.Text>
                 <Card.Text><b>Due Date: </b>{task.dueDate}</Card.Text>
                 <Card.Text><b>Priority: </b>{task.priority}</Card.Text>
                 <div className="d-flex justify-content-between mt-5">
                   <div>
-                    <Button size="sm" variant="primary">
+                    <Button size="sm" variant="primary" onClick={() => setModalShow(true)}>
                       Details
                     </Button>
+                    <Modal show={modalShow} size="sm" aria-labelledby="contained-modal-title-vcenter" centered >
+                      <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-vcenter">Description</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>{task.description}</Modal.Body>
+                      <Modal.Footer>
+                        <Button onClick={() => setModalShow(false)}>Close</Button>
+                      </Modal.Footer>
+                    </Modal>
                   </div>
                   <div>
                     <Button size="sm" variant="warning">
