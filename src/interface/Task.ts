@@ -4,6 +4,7 @@ export interface Task {
   description: string;
   dueDate: string;
   email: string;
+  priority?: string;
 }
 
 export interface TaskState {
