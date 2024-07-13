@@ -9,7 +9,9 @@ const NavBar = () => {
   return (
     <Navbar className="bg-dark">
       <Container>
-        <Navbar.Brand className="text-light">Task Management</Navbar.Brand>
+        <Navbar.Brand className="text-light">
+          <img src="../../public/logo.png" alt="" height="40px" />
+        </Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link className="text-light mx-3" as={Link} to="/dashboard">
             Dashboard
