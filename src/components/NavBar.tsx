@@ -1,0 +1,46 @@
+import { Navbar, Container, Nav } from "react-bootstrap";
+import { useAuth0 } from "@auth0/auth0-react";
+import Logout from "./Logout";
+import Login from "./Login";
+import { Link } from "react-router-dom";
+
+const NavBar = () => {
+  const { user, isAuthenticated } = useAuth0();
+  console.log(user);
+  return (
+    <Navbar className="bg-dark">
+      <Container>
+        <Navbar.Brand className="text-light" as={Link} to="/">
+          Task Management
+        </Navbar.Brand>
+        <Nav className="me-auto">
+          <Nav.Link
+            className="text-light mx-3"
+            href="#features"
+            as={Link}
+            to="/dashboard"
+          >
+            Dashboard
+          </Nav.Link>
+        </Nav>
+        <Navbar.Toggle />
+        {isAuthenticated ? (
+          <>
+            <Navbar.Collapse className="justify-content-end">
+              <Navbar.Text className="text-light mx-3">
+                Welcom <u className="text-warning">{user?.given_name}</u>
+              </Navbar.Text>
+            </Navbar.Collapse>
+            <Logout />
+          </>
+        ) : (
+          <>
+            <Login />
+          </>
+        )}
+      </Container>
+    </Navbar>
+  );
+};
+
+export default NavBar;
