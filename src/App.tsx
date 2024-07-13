@@ -4,22 +4,21 @@ import HomePage from "./components/HomePage";
 import AuthGuard from "./components/AuthGuard";
 import Dashboard from "./components/Dashboard";
 import NavBar from "./components/NavBar";
-import { Container } from "react-bootstrap";
+import AddTask from "./components/AddTask";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <NavBar />
-        <Container className="my-5">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route
-              path="/dashboard"
-              element={<AuthGuard component={Dashboard} />}
-            />
-          </Routes>
-        </Container>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/dashboard"
+            element={<AuthGuard component={Dashboard} />}
+          />
+          <Route path="/add-task" element={<AuthGuard component={AddTask} />} />
+        </Routes>
       </BrowserRouter>
     </>
   );

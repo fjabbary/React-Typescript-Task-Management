@@ -6,21 +6,16 @@ import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const { user, isAuthenticated } = useAuth0();
-  console.log(user);
   return (
     <Navbar className="bg-dark">
       <Container>
-        <Navbar.Brand className="text-light" as={Link} to="/">
-          Task Management
-        </Navbar.Brand>
+        <Navbar.Brand className="text-light">Task Management</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link
-            className="text-light mx-3"
-            href="#features"
-            as={Link}
-            to="/dashboard"
-          >
+          <Nav.Link className="text-light mx-3" as={Link} to="/dashboard">
             Dashboard
+          </Nav.Link>
+          <Nav.Link className="text-light mx-3" as={Link} to="/add-task">
+            Add Task
           </Nav.Link>
         </Nav>
         <Navbar.Toggle />

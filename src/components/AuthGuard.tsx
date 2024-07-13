@@ -1,5 +1,6 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import React, { ReactNode } from "react";
+import { Spinner } from "react-bootstrap";
 
 interface AuthGuardProps {
   component: ReactNode | any;
@@ -7,7 +8,11 @@ interface AuthGuardProps {
 
 const AuthGuard = ({ component }: AuthGuardProps) => {
   const Component = withAuthenticationRequired(component, {
-    onRedirecting: () => <div>Redirecting to login page</div>,
+    onRedirecting: () => (
+      <div className="text-center mt-5">
+        <Spinner></Spinner>
+      </div>
+    ),
   });
 
   return <Component />;
