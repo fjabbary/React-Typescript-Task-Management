@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, FormEvent, useDebugValue } from "react";
 import { Modal, Button, Form, Dropdown, ButtonGroup } from "react-bootstrap";
 import { Task } from "../interface/Task";
+import { updateTask } from "../features/taskSlice";
+import { useDispatch, UseDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface updateProps {
   updateModalShow: boolean;
@@ -13,7 +16,8 @@ const EditTaskModal = ({
   setUpdateModalShow,
   selectedUpdatedTask,
 }: updateProps) => {
-  console.log("Selected =>+", selectedUpdatedTask);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [newTask, setNewTask] = React.useState<Task>({
     id: null,
@@ -43,6 +47,14 @@ const EditTaskModal = ({
   const handlePriority = (e: any) => {
     setNewTask({ ...newTask, priority: e });
   };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    dispatch(updateTask(newTask));
+    navigate("/dashboard");
+    setUpdateModalShow(false);
+  };
+
   return (
     <div>
       <Modal
@@ -57,7 +69,7 @@ const EditTaskModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form className="border p-5 bg-light">
+          <Form className="border p-5 bg-light" onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>Task Name</Form.Label>
               <Form.Control
@@ -65,7 +77,7 @@ const EditTaskModal = ({
                 placeholder="Enter Task"
                 required
                 name="name"
-                value={newTask.name}
+                value={newTask.name || ""}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -76,7 +88,7 @@ const EditTaskModal = ({
                 placeholder=""
                 required
                 name="description"
-                value={newTask.description}
+                value={newTask.description || ""}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -85,7 +97,7 @@ const EditTaskModal = ({
                 as={ButtonGroup}
                 className="my-3"
                 name="priority"
-                value={newTask.priority}
+                value={newTask.priority || ""}
                 onChange={handleChange}
                 onSelect={handlePriority}
               >
@@ -109,7 +121,7 @@ const EditTaskModal = ({
                 type="date"
                 required
                 name="dueDate"
-                value={newTask.dueDate}
+                value={newTask.dueDate || ""}
                 onChange={handleChange}
               />
             </Form.Group>

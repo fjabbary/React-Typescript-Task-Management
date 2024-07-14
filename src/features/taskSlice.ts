@@ -1,12 +1,11 @@
 // src/features/counter/counterSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-import { tasks } from './data.ts'
 import { TaskState } from '../interface/Task.ts';
 
 
-
+const storedTasks = localStorage.getItem('tasks');
 const initialState: TaskState = {
-  tasks: [...tasks]
+  tasks: storedTasks ? JSON.parse(storedTasks) : []
 };
 
 
@@ -16,6 +15,7 @@ export const taskSlice = createSlice({
   reducers: {
     addTask: (state, action) => {
       state.tasks.push(action.payload)
+      localStorage.setItem('tasks', JSON.stringify(state.tasks))
     },
 
     updateTask: (state, action) => {
@@ -28,10 +28,6 @@ export const taskSlice = createSlice({
     }
   },
 });
-
-
-
-
 
 
 
