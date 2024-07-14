@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { TaskState, Task } from "../interface/Task";
 import React from "react";
-import { UseDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteTask } from "../features/taskSlice";
 
 const Dashboard: React.FC = () => {
@@ -18,8 +18,8 @@ const Dashboard: React.FC = () => {
   console.log(tasks);
 
   const handleDelete = (id: number) => {
-    dispatch(deleteTask(id))
-  }
+    dispatch(deleteTask(id));
+  };
 
   return (
     <Container className="mt-5">
@@ -33,8 +33,14 @@ const Dashboard: React.FC = () => {
                 <Card.Text>
                   {task.description.substring(0, 50) + "..."}
                 </Card.Text>
-                <Card.Text><b>Due Date: </b>{task.dueDate}</Card.Text>
-                <Card.Text><b>Priority: </b>{task.priority}</Card.Text>
+                <Card.Text>
+                  <b>Due Date: </b>
+                  {task.dueDate}
+                </Card.Text>
+                <Card.Text>
+                  <b>Priority: </b>
+                  {task.priority}
+                </Card.Text>
                 <div className="d-flex justify-content-between mt-5">
                   <div>
                     <Button size="sm" variant="primary">
@@ -45,7 +51,12 @@ const Dashboard: React.FC = () => {
                     <Button size="sm" variant="warning">
                       <i className="bi bi-pencil-square"></i>
                     </Button>
-                    <Button size="sm" variant="danger" className="ms-2" onClick={() => handleDelete(task.id)}>
+                    <Button
+                      size="sm"
+                      variant="danger"
+                      className="ms-2"
+                      onClick={() => handleDelete(task.id)}
+                    >
                       <i className="bi bi-x-circle-fill"></i>
                     </Button>
                   </div>
