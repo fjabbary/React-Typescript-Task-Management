@@ -5,6 +5,7 @@ import { Row, Col, Card, Button } from "react-bootstrap";
 import { TaskState, Task } from "../interface/Task";
 import React, { useState } from "react";
 import { deleteTask } from "../features/taskSlice";
+import EditTaskModal from "./EditTaskModal";
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
@@ -12,10 +13,14 @@ const Dashboard: React.FC = () => {
   const { tasks } = useSelector((state: TaskState) => state.tasks);
   const userTasks = tasks.filter((item: Task) => item.email === user?.email);
   const [modalShow, setModalShow] = React.useState(false);
+  const [updateModalShow, setUpdateModalShow] = React.useState(false);
+
   const [selectedTask, setSelectedTask] = React.useState({
     name: "",
     description: "",
   });
+
+  const [selectedUpdatedTask, setSelectedUpdatedTask] = React.useState({});
 
   const handleDelete = (id: number) => {
     dispatch(deleteTask(id));
@@ -24,6 +29,12 @@ const Dashboard: React.FC = () => {
   const handleModal = (task: Task) => {
     setModalShow(true);
     setSelectedTask(task);
+  };
+
+  const handleUpdateModal = (task: Task) => {
+    console.log(task);
+    setUpdateModalShow(true);
+    setSelectedUpdatedTask(task);
   };
 
   return (
@@ -58,7 +69,11 @@ const Dashboard: React.FC = () => {
                     </Button>
                   </div>
                   <div>
-                    <Button size="sm" variant="warning">
+                    <Button
+                      size="sm"
+                      variant="warning"
+                      onClick={() => handleUpdateModal(task)}
+                    >
                       <i className="bi bi-pencil-square"></i>
                     </Button>
                     <Button
@@ -78,7 +93,7 @@ const Dashboard: React.FC = () => {
       </Row>
       <Modal
         show={modalShow}
-        size="sm"
+        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -92,6 +107,11 @@ const Dashboard: React.FC = () => {
           <Button onClick={() => setModalShow(false)}>Close</Button>
         </Modal.Footer>
       </Modal>
+      <EditTaskModal
+        updateModalShow={updateModalShow}
+        setUpdateModalShow={setUpdateModalShow}
+        selectedUpdatedTask={selectedUpdatedTask}
+      />
     </Container>
   );
 };
