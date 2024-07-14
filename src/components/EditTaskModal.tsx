@@ -15,16 +15,34 @@ const EditTaskModal = ({
 }: updateProps) => {
   console.log("Selected =>+", selectedUpdatedTask);
 
-  const [newTask, setNewTask] = React.useState({});
+  const [newTask, setNewTask] = React.useState<Task>({
+    id: null,
+    name: "",
+    description: "",
+    priority: "",
+    dueDate: "",
+    email: "",
+  });
 
   useEffect(() => {
-    setNewTask(selectedUpdatedTask);
-  }, []);
-
+    if (selectedUpdatedTask) {
+      setNewTask({
+        id: selectedUpdatedTask.id,
+        name: selectedUpdatedTask.name,
+        description: selectedUpdatedTask.description,
+        priority: selectedUpdatedTask.priority,
+        dueDate: selectedUpdatedTask.dueDate,
+        email: selectedUpdatedTask.email,
+      });
+    }
+  }, [selectedUpdatedTask]);
   const handleChange = (e: any) => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
   };
 
+  const handlePriority = (e: any) => {
+    setNewTask({ ...newTask, priority: e });
+  };
   return (
     <div>
       <Modal
@@ -69,6 +87,7 @@ const EditTaskModal = ({
                 name="priority"
                 value={newTask.priority}
                 onChange={handleChange}
+                onSelect={handlePriority}
               >
                 <Button variant="primary">Select Priority</Button>
                 <Dropdown.Toggle
