@@ -1,15 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Container, Modal, ModalBody } from "react-bootstrap";
+import { Container, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { TaskState, Task } from "../interface/Task";
-<<<<<<< HEAD
-import React from "react";
-import { useDispatch } from "react-redux";
-=======
 import React, { useState } from "react";
-import { UseDispatch } from "react-redux";
->>>>>>> 8e51cf4b4f4d06f7a616f1177ae2c2e9650c7c47
 import { deleteTask } from "../features/taskSlice";
 
 const Dashboard: React.FC = () => {
@@ -18,13 +12,18 @@ const Dashboard: React.FC = () => {
   const { tasks } = useSelector((state: TaskState) => state.tasks);
   const userTasks = tasks.filter((item: Task) => item.email === user?.email);
   const [modalShow, setModalShow] = React.useState(false);
-
-  // getAccessTokenSilently().then((token) => console.log(token));
-  console.log(user);
-  console.log(tasks);
+  const [selectedTask, setSelectedTask] = React.useState({
+    name: "",
+    description: "",
+  });
 
   const handleDelete = (id: number) => {
     dispatch(deleteTask(id));
+  };
+
+  const handleModal = (task: Task) => {
+    setModalShow(true);
+    setSelectedTask(task);
   };
 
   return (
@@ -50,18 +49,13 @@ const Dashboard: React.FC = () => {
                 </Card.Text>
                 <div className="d-flex justify-content-between mt-5">
                   <div>
-                    <Button size="sm" variant="primary" onClick={() => setModalShow(true)}>
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      onClick={() => handleModal(task)}
+                    >
                       Details
                     </Button>
-                    <Modal show={modalShow} size="sm" aria-labelledby="contained-modal-title-vcenter" centered >
-                      <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title-vcenter">Description</Modal.Title>
-                      </Modal.Header>
-                      <Modal.Body>{task.description}</Modal.Body>
-                      <Modal.Footer>
-                        <Button onClick={() => setModalShow(false)}>Close</Button>
-                      </Modal.Footer>
-                    </Modal>
                   </div>
                   <div>
                     <Button size="sm" variant="warning">
@@ -82,6 +76,22 @@ const Dashboard: React.FC = () => {
           </Col>
         ))}
       </Row>
+      <Modal
+        show={modalShow}
+        size="sm"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title id="contained-modal-title-vcenter">
+            {selectedTask.name}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{selectedTask.description}</Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => setModalShow(false)}>Close</Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
